@@ -27,6 +27,7 @@ with st.spinner("Loading Model...."):
 #image preprocessing function
 def preprocess_image(img):
     size_x,size_y=128,128
+    img = asarray(img) #convert image to array
     img = cv2.resize(img, (size_y, size_x))
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     img = np.expand_dims(img, axis=0)
@@ -37,7 +38,6 @@ file = st.file_uploader("Upload an ultrasound image ", type=['png','jpg','jpeg']
 
 if file is not None:
     image = Image.open(file) #open uploaded image
-    image = asarray(image) #convert image to array
 
     prepd_img=preprocess_image(image) #preprocess image to meet the model's input requirements
     #original_img= prepd_img.reshape((128,128,3))
@@ -47,6 +47,7 @@ if file is not None:
         pred = model.predict(prepd_img) #pass the preprocessed image to the model to predict mask for it
         prediction_image = pred.reshape((128, 128, 1))
         prediction_image = cv2.resize(prediction_image,(500,500)) #resize the predicted mask image so it's displayed bigger on the web app page
+    
     #display images
     col1, col2 = st.columns(2)
     col1.image(prepd_img)
