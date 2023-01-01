@@ -1,7 +1,4 @@
-div.css-zt5igj.e16nr0p33 {
-    background-color: #fb5a5a;
-    border-radius: 10px;
-}
+
 
 section.main.css-k1vhr4.egzxvld3 {
     background-color: #6a86da;
@@ -34,7 +31,19 @@ div.css-fis6aj.exg6vvm10 {
     opacity: 50%;
 }
 
+span.css-10trblm.e16nr0p30 {
+    font-size: 1em;
+    font-weight: bold;
+    font-variant-caps: small-caps;
+    border-bottom: 3px solid #fb5a5a;
+}
+
 /*
+div.css-zt5igj.e16nr0p33 {
+    background-color: #fb5a5a;
+    border-radius: 10px;
+}
+
 button.css-9s5bis.edgvbvh3 {
     background-color: #6a86da;
 }
