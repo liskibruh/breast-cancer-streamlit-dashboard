@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit_lottie import st_lottie
 import json
 
-st.set_page_config(page_title='Home', layout='wide')
+st.set_page_config(page_title='Team', layout='wide')
 
 #add lottie animation
 def load_lottiefile(filepath: str):
