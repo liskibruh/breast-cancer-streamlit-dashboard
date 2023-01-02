@@ -4,9 +4,28 @@ import cv2
 from PIL import Image
 from numpy import asarray
 import numpy as np
+import json
+from streamlit_lottie import st_lottie
+
+st.set_page_config(page_title='Tumor Localization', layout='wide')
 
 
-st.set_page_config(page_title='Tumor Localization')#, layout='wide')
+#add lottie animation
+def load_lottiefile(filepath: str):
+    with open(filepath, 'r') as f:
+        return json.load(f)
+
+lottie_file = load_lottiefile('84935-x-ray-exam.json')
+col1, col2, col3= st.columns(3)
+with col1:
+    st_lottie(
+    lottie_file,
+    reverse=False,
+    loop=True,
+    quality='low',
+    height=100,
+    width=150
+)
 
 #title
 st.title('Breast Cancer Tumor Localization')
