@@ -9,7 +9,6 @@ from streamlit_lottie import st_lottie
 
 st.set_page_config(page_title='Tumor Localization', layout='wide')
 
-
 #add lottie animation
 def load_lottiefile(filepath: str):
     with open(filepath, 'r') as f:
@@ -24,21 +23,21 @@ with col1:
     loop=True,
     quality='low',
     height=100,
-    width=150
+    width=200
 )
 
 #title
 st.title('Breast Cancer Tumor Localization')
+
+#apply css from style.css
+with open('style.css') as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 #load model function, set cache to prevent reloading
 @st.cache(allow_output_mutation=True)
 def load_model():
     model = tf.keras.models.load_model('breast_tumor_segmentation_model.h5')
     return model
-
-#apply css from style.css
-with open('style.css') as f:
-    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 with st.spinner("Loading Model...."):
     model = load_model() #call load_model function to load the model
