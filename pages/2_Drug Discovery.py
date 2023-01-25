@@ -6,6 +6,7 @@ from PIL import Image
 import subprocess
 import os
 import base64
+import shlex
 import pickle
 
 st.set_page_config(page_title='Drug Discovery', layout='wide')
@@ -38,7 +39,11 @@ with open('style.css') as f:
 # Molecular descriptor calculator
 def desc_calc():
     # Performs the descriptor calculation
-    bashCommand = "java -Xms2G -Xmx2G -Djava.awt.headless=true -jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar -removesalt -standardizenitro -fingerprints -descriptortypes ./PaDEL-Descriptor/PubchemFingerprinter.xml -dir ./ -file descriptors_output.csv"
+    #bashCommand = "java.exe -Xms2G -Xmx2G -Djava.awt.headless=true -jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar -removesalt -standardizenitro -fingerprints -descriptortypes ./PaDEL-Descriptor/PubchemFingerprinter.xml -dir ./ -file descriptors_output.csv"
+
+    bashCommand = "java.exe -Xms2G -Xmx2G -Djava.awt.headless=true -jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar -removesalt -standardizenitro -fingerprints -descriptortypes ./PaDEL-Descriptor/PubchemFingerprinter.xml -dir ./ -file descriptors_output.csv"
+    #subprocess_cmd = shlex.split(bashCommand)
+    #subprocess.call(subprocess_cmd)
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
     os.remove('molecule.smi')
@@ -68,17 +73,33 @@ col1, col2 = st.columns(2)
 with col1:
     st.subheader('Upload a file that contains the SMILES notation')
     uploaded_file = st.file_uploader('Upload .txt file', type = ['txt'], label_visibility='collapsed')
+    # load_data = pd.read_table(uploaded_file, sep=' ', header=None)
+    # st.write(load_data)
     
     if st.button('Predict'):
-        pass
+        load_data = pd.read_table(uploaded_file, sep=' ', header=None)
+        load_data.to_csv('molecule.smi', sep = '\t', header = False, index = False)
+
+        st.header('**Original input data**')
+        st.write(load_data)
+
+        with st.spinner("Calculating descriptors..."):
+            desc_calc()
+            # Read in calculated descriptors and display the dataframe
+        st.header('**Calculated molecular descriptors**')
+        desc = pd.read_csv('descriptors_output.csv')
+        st.write(desc)
+        st.write(desc.shape)
 
 with col2:
     st.subheader('OR write the SMILES notation in the text box below')
     smiles_text = st.text_input(
             'Enter SMILES',
-            max_chars=50,
+            max_chars=100,
         )
 
     if st.button('Predict',key=2):
         pass
+
+    st.write(smiles_text)
 
