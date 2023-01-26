@@ -58,15 +58,19 @@ def preprocess_image(img):
     return img
 
 #ask user to upload image
-file = st.file_uploader("Upload an ultrasound image ", type=['png','jpg','jpeg'])
+file = st.file_uploader("Upload an MRI image ", type=['png','jpg','jpeg'])    
+st.markdown("""
+[Download Example Image](https://github.com/liskibruh/breast-cancer-streamlit-dashboard/blob/main/malignant_example.png)
+""")
+
 
 if file is not None:
     image = Image.open(file) #open uploaded image
     image_temp = asarray(image)
-    st.write(image_temp.shape)
+    #st.write(image_temp.shape)
 
     prepd_img=preprocess_image(image) #preprocess image to meet the model's input requirements
-    st.write(prepd_img.shape)
+    #st.write(prepd_img.shape)
     #original_img= prepd_img.reshape((227,2,3))
     #original_img= cv2.resize(prepd_img,(400,400))
     
@@ -81,7 +85,7 @@ if file is not None:
         with st.spinner("Predicting..."):
             pred = model.predict(prepd_img) #pass the preprocessed image to the model to predict mask for it
             pred=int(np.argmax(pred,axis=1))
-            st.subheader(pred)
+            #st.subheader(pred)
             if(pred==0 or pred==2 or pred==4 or pred==6):
                 st.metric(label = 'Breast Cancer Type',value = 'Benign')
             elif(pred==1 or pred==3 or pred==5 or pred==7):
