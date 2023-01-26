@@ -117,7 +117,7 @@ with col2:
             max_chars=100,
         )
     no_of_chars=len(smiles_text)
-    st.write('Example SMILE: CC12CCC(O)CC1=CCC1C2CCC2(C)C(CC3CN3)CCC12')
+    st.write('Example SMILE: CCn1cc(C(c2ccc(F)cc2)n2ccnc2)c2ccccc21')
 
     if st.button('Predict',key=2):
         st.write('SMILE:', smiles_text)
