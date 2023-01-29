@@ -27,7 +27,7 @@ with col1:
     width=200
 )
 
-st.title('This is the Cancer Classification page')
+st.title('Cancer Classification (Images)')
 
 #apply css from style.css
 with open('style.css') as f:
@@ -48,11 +48,8 @@ def preprocess_image(img):
     size_x,size_y=227,227
     img = asarray(img) #convert image to array
     img = cv2.resize(img, (size_y, size_x))
-    #img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     img = np.expand_dims(img, axis=-1)
     img = np.dstack([img, img, img])
-    #img = np.reshape(img, (227, 227, 3))
-
     img = np.expand_dims(img, axis=0)
     
     return img
@@ -70,16 +67,11 @@ if file is not None:
     #st.write(image_temp.shape)
 
     prepd_img=preprocess_image(image) #preprocess image to meet the model's input requirements
-    #st.write(prepd_img.shape)
-    #original_img= prepd_img.reshape((227,2,3))
-    #original_img= cv2.resize(prepd_img,(400,400))
     
     # #display images
     col1, col2 = st.columns(2)
     with col1:
         st.image(prepd_img)
-        #col1.image(original_img)
-        # col2.image(prediction_image)
 
     with col2:
         with st.spinner("Predicting..."):
