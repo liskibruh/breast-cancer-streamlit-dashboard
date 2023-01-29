@@ -39,8 +39,6 @@ with open('style.css') as f:
 # Molecular descriptor calculator
 def desc_calc():
     # Performs the descriptor calculation
-    #bashCommand = "java.exe -Xms2G -Xmx2G -Djava.awt.headless=true -jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar -removesalt -standardizenitro -fingerprints -descriptortypes ./PaDEL-Descriptor/PubchemFingerprinter.xml -dir ./ -file descriptors_output.csv"
-
     bashCommand = "java.exe -Xms2G -Xmx2G -Djava.awt.headless=true -jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar -removesalt -standardizenitro -fingerprints -descriptortypes ./PaDEL-Descriptor/PubchemFingerprinter.xml -dir ./ -file descriptors_output.csv"
     #subprocess_cmd = shlex.split(bashCommand)
     #subprocess.call(subprocess_cmd)
@@ -57,15 +55,13 @@ def filedownload(df):
 
 # Model building
 def build_model(input_data):
-    # Reads in saved regression model
+    # Reads in saved model
     load_model = pickle.load(open('DrugDiscovery_Aromatase_52 (1).pkl', 'rb'))
     # Apply model to make predictions
     prediction = load_model.predict(input_data)
     st.header('**Prediction output**')
     prediction_output = pd.Series(prediction, name='pIC50')
-    ####molecule_name = pd.Series(load_data[1], name='molecule_name')
     df = pd.DataFrame(prediction_output)
-    ####df = pd.concat([molecule_name, prediction_output], axis=1)
     st.write(df)
     st.markdown(filedownload(df), unsafe_allow_html=True)
 
@@ -74,8 +70,6 @@ col1, col2 = st.columns(2)
 with col1:
     st.subheader('Upload a file that contains the SMILES notation')
     uploaded_file = st.file_uploader('Upload .txt file', type = ['txt'], label_visibility='collapsed')
-    # load_data = pd.read_table(uploaded_file, sep=' ', header=None)
-    # st.write(load_data)
     st.markdown("""
     [Download this example file as .txt](https://raw.githubusercontent.com/liskibruh/breast-cancer-streamlit-dashboard/main/example_smiles.txt)
     """)
