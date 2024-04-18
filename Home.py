@@ -1,3 +1,6 @@
+## This script is not doing anything.
+## The main scripts of the project is in the "pages" dir
+
 import streamlit as st
 
 st.set_page_config(page_title='Home')
