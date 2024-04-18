@@ -1,5 +1,5 @@
 ## This script is not doing anything.
-## The main scripts of the project is in the "pages" dir
+## The main scripts of the project are in the "pages" dir
 
 import streamlit as st
 
